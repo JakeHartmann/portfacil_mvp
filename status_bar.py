@@ -3,6 +3,8 @@ import cv2
 
 def auto_detect_and_remove_bars(image_path, cropped_image_path):
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    if img is None:
+        raise ValueError(f"Erro ao carregar a imagem do caminho: {image_path}")
 
     edges = cv2.Canny(img, 100, 200)
 
