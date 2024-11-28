@@ -45,28 +45,6 @@ def process_texto_bruto(texto_bruto):
 
     return print_telefone
 
-def save_to_csv(extracted_text, output_path="output.csv"):
-    print_telefone = process_texto_bruto(extracted_text)
-
-    with open(output_path, mode="w", newline="") as csv_file:
-        writer = csv.writer(csv_file, delimiter=';')  # ponto e vírgula é o delimitador padrão de um arquivo .csv
-        
-        writer.writerow(["XP Ável", "Valor total da carteira"])
-        writer.writerow(["", f"R$ {print_telefone.investimento_liquido:.2f}"])
-        
-        writer.writerow([])
-        writer.writerow(["Classe Ativo", "Nome Ativo", "Valor Total", "% da carteira"])
-
-        for investimento in print_telefone.investimentos:
-            writer.writerow([
-                "",  # Coluna para Classe Ativo
-                investimento.sigla,
-                f"R$ {investimento.valor:.2f}",
-                f"{investimento.porcentagem:.2f}%"
-            ])
-    
-    print(f"Arquivo salvo com sucesso em {output_path}")
-
 def save_to_excel(extracted_text, output_path="output.xlsx"):
     print_telefone = process_texto_bruto(extracted_text)
     workbook = openpyxl.Workbook()
