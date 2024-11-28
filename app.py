@@ -79,7 +79,7 @@ def processa_st(dados: PrintTelefone):
 def main_pipeline(image_path):
     processed_image_path = preprocess_image(image_path)
 
-    processed_image_path = auto_detect_and_remove_bars(processed_image_path, 'sample_data/processed_image.png')
+    processed_image_path = auto_detect_and_remove_bars(processed_image_path)
 
     extracted_text: str = extract_text_from_image(processed_image_path)
     

@@ -1,7 +1,8 @@
 import cv2
+import tempfile
 
 
-def auto_detect_and_remove_bars(image_path, cropped_image_path):
+def auto_detect_and_remove_bars(image_path):
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     if img is None:
         raise ValueError(f"Erro ao carregar a imagem do caminho: {image_path}")
@@ -25,8 +26,13 @@ def auto_detect_and_remove_bars(image_path, cropped_image_path):
             bottom_crop_height = min(bottom_crop_height, y)
 
     img_color = cv2.imread(image_path)
+    if img_color is None:
+        raise ValueError(f"Erro ao carregar a imagem colorida do caminho: {image_path}")
     
     # Recorta a área entre a barra superior e a barra inferior que foram detectadas
     cropped_img = img_color[top_crop_height:bottom_crop_height, :]
-    cv2.imwrite(cropped_image_path, cropped_img)
-    return cropped_image_path
+    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as temp_file:
+        temp_file_path = temp_file.name
+        cv2.imwrite(temp_file_path, cropped_img)
+
+    return temp_file_path
